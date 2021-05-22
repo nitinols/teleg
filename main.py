@@ -11,7 +11,7 @@ def start_message(message):
 
 
 @bot.message_handler(commands=['help'])
-def start_message(message):
+def start_messager(message):
     bot.send_message(message.chat.id, 'Введи логин и пароль')
     bot.send_message(message.chat.id, 'Пимер: 12345 12345')
 
@@ -29,21 +29,31 @@ def collect_info(message):
                 bot.send_message(message.chat.id, result[0][3])
                 photo = open( f'photo/{result[0][4]}', 'rb')
                 bot.send_photo(message.chat.id, photo)
-                #bot.register_next_step_handler(message, info)
+                bot.register_next_step_handler(message, info)
             else:
                 bot.send_message(message.chat.id, 'Неправильный логин или пароль')
         else:
             bot.send_message(message.chat.id, 'Неправильный логин или пароль')
     else:
-        bot.send_message(message.chat.id, 'Проверьте правильность ввода')
+        bot.send_message(message.chat.id, 'Проверьте правильность ввода пароля и логина')
+
 
 def info(message):
         if message.text == 'Информация':
             bot.send_message(message.chat.id, 'Описание проекта')
+            photo = open(f'photo/bout.jpg', 'rb')
+            bot.send_photo(message.chat.id, photo)
+            bot.register_next_step_handler(message, info)
         elif message.text == 'Статистика':
             bot.send_message(message.chat.id, 'Статистика проекта')
+            photo = open(f'photo/grecha.jpg', 'rb')
+            bot.send_photo(message.chat.id, photo)
+            bot.register_next_step_handler(message, info)
+        elif message.text == 'назад':
+            bot.register_next_step_handler(message, collect_info)
         else:
             bot.send_message(message.chat.id, 'Я не знаю спроси что-нибудь другое')
+            bot.register_next_step_handler(message, info)
 
 
 
